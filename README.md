@@ -1,20 +1,25 @@
-Lab 10: Spring WebFlux & WebClient
+🛍️ Product Management REST API
 
-ข้อมูลนักศึกษา
+Spring WebFlux · Reactive Programming · WebClient
 
-รหัสนักศึกษา: 673380296-7
+ระบบ REST API สำหรับจัดการสินค้า พัฒนาด้วย Spring WebFlux โดยเน้นการทำงานแบบ Non-blocking Reactive Programming
 
-ชื่อ: สโรชา เสาทอง
+<p>
+  <img src="https://img.shields.io/badge/Java-17-orange?style=for-the-badge&logo=openjdk" alt="Java 17">
+  <img src="https://img.shields.io/badge/Spring%20Boot-3.3.0-6DB33F?style=for-the-badge&logo=springboot" alt="Spring Boot">
+  <img src="https://img.shields.io/badge/Spring%20WebFlux-Reactive-6DB33F?style=for-the-badge&logo=spring" alt="Spring WebFlux">
+  <img src="https://img.shields.io/badge/License-Educational-blue?style=for-the-badge" alt="Educational">
+</p>
 
-รายวิชา: CP353002 หลักการออกแบบและพัฒนาซอฟต์แวร์
+<p>
+  <strong>ผู้จัดทำ:</strong> สโรชา เสาทอง · <strong>รหัส:</strong> 673380296-7
+</p>
 
-หัวข้อ: Reactive Programming, Spring WebFlux และ WebClient
+</div>
 
-1. รายละเอียดโปรเจกต์
+📌 ภาพรวมโปรเจกต์
 
-โปรเจกต์นี้เป็น REST API สำหรับระบบจัดการสินค้า โดยใช้ Spring WebFlux และ WebClient เพื่อให้ระบบทำงานแบบ Non-blocking Reactive Programming
-
-ความสามารถของระบบ ได้แก่
+โปรเจกต์นี้เป็น REST API สำหรับระบบจัดการสินค้า พัฒนาด้วย Spring WebFlux และ WebClient เพื่อฝึกการเขียนโปรแกรมแบบ Reactive โดยระบบสามารถจัดการข้อมูลสินค้าได้ดังนี้
 
 แสดงสินค้าทั้งหมด
 
@@ -30,9 +35,39 @@ Lab 10: Spring WebFlux & WebClient
 
 เรียก REST API ผ่าน WebClient
 
-โปรเจกต์นี้ใช้ ConcurrentHashMap เก็บข้อมูลสินค้าในหน่วยความจำ จึงไม่ต้องเชื่อมต่อฐานข้อมูลจริง
+โปรเจกต์นี้ใช้ ConcurrentHashMap เป็นพื้นที่เก็บข้อมูลสินค้าในหน่วยความจำ จึงไม่ต้องเชื่อมต่อฐานข้อมูลจริง
 
-2. เทคโนโลยีที่ใช้
+✨ จุดเด่นของระบบ
+
+ความสามารถ
+
+รายละเอียด
+
+Reactive API
+
+คืนข้อมูลด้วย Mono และ Flux
+
+Non-blocking
+
+ไม่ใช้ .block() หรือ Thread.sleep() ใน Endpoint
+
+Product CRUD
+
+รองรับการดู สร้าง และลบสินค้า
+
+Search
+
+ค้นหาตาม ID และ Category
+
+Discount
+
+คำนวณราคาหลังส่วนลดอัตโนมัติ
+
+WebClient
+
+เรียก API แบบ Reactive
+
+🧰 เทคโนโลยีที่ใช้
 
 Java 17
 
@@ -50,61 +85,110 @@ WebClient
 
 ConcurrentHashMap
 
-3. โครงสร้างโปรเจกต์
+🗂️ โครงสร้างโปรเจกต์
 
 src/main/java/com/example/lab10/
-├── Lab10Application.java
-├── AppConfig.java
-├── model/Product.java
-├── repository/ProductRepository.java
-├── service/ProductService.java
-├── controller/ProductController.java
-└── client/ProductWebClient.java
+├── Lab10Application.java          # จุดเริ่มต้นของแอปพลิเคชัน
+├── AppConfig.java                 # Spring Bean Configuration
+├── model/
+│   └── Product.java               # โครงสร้างข้อมูลสินค้า
+├── repository/
+│   └── ProductRepository.java     # จัดเก็บและค้นหาข้อมูล
+├── service/
+│   └── ProductService.java        # Business Logic
+├── controller/
+│   └── ProductController.java     # REST API Endpoints
+└── client/
+    └── ProductWebClient.java      # Reactive HTTP Client
 
-ส่วน
+การทำงานของแต่ละ Layer
+
+Client / Browser / Postman
+            ↓
+       Controller
+            ↓
+        Service
+            ↓
+       Repository
+            ↓
+   ConcurrentHashMap
+
+Layer
 
 หน้าที่
 
 model
 
-เก็บโครงสร้างข้อมูล Product
+กำหนดโครงสร้างของ Product
 
 repository
 
-จัดเก็บและค้นหาข้อมูลสินค้า
+จัดเก็บ ค้นหา บันทึก และลบข้อมูล
 
 service
 
-จัดการ Business Logic
+จัดการ Business Logic และ Operators
 
 controller
 
-เปิด REST API
+รับ HTTP Request และส่ง Response
 
 client
 
-เรียก REST API ผ่าน WebClient
+เรียก REST API ด้วย WebClient
 
-4. Reactive Programming และ Blocking Programming
+⚡ Reactive Programming
 
-Blocking Programming คือการทำงานที่ Thread ต้องหยุดรอผลลัพธ์ก่อนจึงทำงานต่อได้ หากมี Request จำนวนมาก อาจทำให้ Thread ไม่เพียงพอและระบบตอบสนองช้าลง
+Reactive Programming ทำงานกับข้อมูลแบบ Data Stream โดยไม่ทำให้ Thread หยุดรอผลลัพธ์ ระบบจะส่งข้อมูลเมื่อข้อมูลพร้อมผ่าน Mono หรือ Flux
 
-Reactive Programming เป็นการทำงานกับข้อมูลแบบ Data Stream และไม่ทำให้ Thread หยุดรอผลลัพธ์ เมื่อข้อมูลพร้อมจึงค่อยส่งข้อมูลกลับมา โดยใช้ Mono หรือ Flux เป็นตัวแทนของข้อมูล
+Blocking กับ Reactive
 
-โปรเจกต์นี้จึงไม่ใช้ .block() หรือ Thread.sleep() ใน Endpoint แต่คืนค่า Mono และ Flux ให้ Spring WebFlux จัดการต่อ
+หัวข้อ
+
+Blocking
+
+Reactive
+
+Thread
+
+หยุดรอผลลัพธ์
+
+ไม่หยุดรอ
+
+Return Type
+
+Product, List<Product>
+
+Mono, Flux
+
+ความเหมาะสม
+
+งานทั่วไป
+
+งานที่มี Request จำนวนมาก
+
+ตัวอย่าง
+
+.block()
+
+.map(), .flatMap()
+
+ตัวอย่าง Controller แบบ Non-blocking:
 
 @GetMapping
 public Flux<Product> getAll() {
     return service.getAll();
 }
 
-5. Mono และ Flux
+⚠️ Controller ไม่ควรเรียก .block() หรือ subscribe() เอง เพราะ Spring WebFlux จะจัดการ Subscription ให้โดยอัตโนมัติ
+
+🔄 Mono และ Flux
 
 Reactive Type
 
 ความหมาย
 
-ตัวอย่าง
+ตัวอย่างการใช้งาน
 
 Mono<Product>
 
@@ -116,11 +200,11 @@ Flux<Product>
 
 ข้อมูล 0 ถึงหลายรายการ
 
-ดึงสินค้าทั้งหมด
+แสดงสินค้าทั้งหมด
 
 Mono<Double>
 
-ค่าตัวเลข 0 หรือ 1 ค่า
+ข้อมูลตัวเลข 0 หรือ 1 ค่า
 
 ราคาหลังส่วนลด
 
@@ -130,9 +214,7 @@ Mono<Void>
 
 ลบสินค้า
 
-การเลือกใช้ Mono หรือ Flux ให้ตรงกับจำนวนข้อมูล ทำให้โค้ดมีความชัดเจนและทำงานกับ Reactive Stream ได้ถูกต้อง
-
-6. REST API Endpoints
+🌐 REST API Endpoints
 
 Method
 
@@ -190,31 +272,45 @@ Mono<Double>
 
 ดูราคาหลังส่วนลด
 
-7. วิธีรันโปรเจกต์
+🚀 วิธีเริ่มต้นใช้งาน
 
-เปิด Terminal ในโฟลเดอร์โปรเจกต์ แล้วใช้คำสั่ง:
+1. Clone โปรเจกต์
+
+git clone <repository-url>
+cd LAB10_WebClient
+
+2. รันโปรเจกต์ด้วย Maven
 
 mvn spring-boot:run
 
 หรือเปิดไฟล์ Lab10Application.java แล้วกด Run ใน IntelliJ IDEA
 
-เซิร์ฟเวอร์จะทำงานที่:
+เมื่อรันสำเร็จ API จะพร้อมใช้งานที่:
 
 http://localhost:8080
 
-8. ตัวอย่างการทดสอบ API
+🧪 ตัวอย่างการทดสอบ API
+
+แสดงสินค้าทั้งหมด
 
 GET http://localhost:8080/products
+
+ค้นหาสินค้าตาม ID
+
 GET http://localhost:8080/products/1
+
+ค้นหาตาม Category
+
 GET http://localhost:8080/products/category/Electronics
+
+ดูราคาหลังส่วนลด
+
 GET http://localhost:8080/products/1/price
-DELETE http://localhost:8080/products/1
 
 สร้างสินค้าใหม่
 
 POST http://localhost:8080/products
-
-Request Body:
+Content-Type: application/json
 
 {
   "name": "Mechanical Keyboard",
@@ -227,17 +323,45 @@ Request Body:
 
 หากไม่ระบุ id ระบบจะสร้าง UUID ให้อัตโนมัติ
 
-9. Operators ที่ใช้
+ลบสินค้า
+
+DELETE http://localhost:8080/products/1
+
+💰 การคำนวณส่วนลด
+
+discountType
+
+ส่วนลด
+
+NONE
+
+0%
+
+MEMBER
+
+10%
+
+SEASONAL
+
+20%
+
+ตัวอย่างสินค้า ID 1:
+
+ราคาปกติ       = 39,900 บาท
+ส่วนลด MEMBER  = 10%
+ราคาหลังลด     = 39,900 × 0.90 = 35,910 บาท
+
+🧩 Operators ที่ใช้
 
 map
 
-ใช้แปลงข้อมูลจากชนิดหนึ่งเป็นอีกชนิดหนึ่ง เช่น แปลง Product เป็นราคาหลังส่วนลด
+ใช้แปลงข้อมูลจากชนิดหนึ่งเป็นอีกชนิดหนึ่ง
 
 .map(Product::getDiscountedPrice)
 
 filter
 
-ใช้กรองข้อมูลตามเงื่อนไข เช่น เลือกสินค้าที่มี Category ตรงกัน
+ใช้กรองข้อมูลตามเงื่อนไข
 
 .filter(product ->
         product.getCategory()
@@ -255,7 +379,7 @@ switchIfEmpty
 
 .switchIfEmpty(Mono.error(...))
 
-10. WebClient
+🔌 WebClient
 
 WebClient ใช้เรียก REST API แบบ Reactive และ Non-blocking
 
@@ -266,17 +390,29 @@ public Mono<Product> getProductById(String id) {
             .bodyToMono(Product.class);
 }
 
-ความหมายของ Method Chain:
+Method Chain
 
-.get() กำหนด HTTP Method เป็น GET
+หน้าที่
 
-.uri() กำหนด URL
+.get()
 
-.retrieve() รับข้อมูลจาก Response
+กำหนด HTTP Method เป็น GET
 
-.bodyToMono() แปลง Response เป็น Mono
+.uri()
 
-.bodyToFlux() แปลง Response หลายรายการเป็น Flux
+กำหนด URL
+
+.retrieve()
+
+รับข้อมูลจาก Response
+
+.bodyToMono()
+
+แปลง Response เป็น Mono
+
+.bodyToFlux()
+
+แปลง Response หลายรายการเป็น Flux
 
 ตัวอย่างการ Chain Operators:
 
@@ -285,22 +421,56 @@ getProductById("1")
         .defaultIfEmpty("ไม่พบสินค้า")
         .subscribe(System.out::println);
 
-11. ข้อกำหนด Non-blocking
+✅ Non-blocking Checklist
 
-โปรเจกต์นี้ไม่ใช้คำสั่งต่อไปนี้ใน Endpoint:
+ใช้ Mono และ Flux
 
-.block()
-Thread.sleep()
+ใช้ Spring WebFlux
 
-Controller จะคืน Mono หรือ Flux โดยตรง เพื่อให้ Spring WebFlux จัดการการ Subscribe เอง
+ใช้ WebClient
 
-12. สรุปผลการทำงาน
+ใช้ map, filter และ flatMap
 
-โปรเจกต์นี้สามารถสร้าง REST API สำหรับระบบจัดการสินค้าได้ครบถ้วน โดยใช้ Spring WebFlux และ WebClient ระบบรองรับการแสดงสินค้า การค้นหาตาม ID การสร้างสินค้า การลบสินค้า การค้นหาตาม Category และการคำนวณราคาหลังส่วนลด
+ไม่ใช้ .block() ใน Endpoint
 
-การใช้ Mono, Flux, map, filter, flatMap และ WebClient ทำให้ระบบทำงานแบบ Reactive และ Non-blocking ตามข้อกำหนดของงาน
+ไม่ใช้ Thread.sleep()
 
-ผู้จัดทำ
+Controller คืนค่า Reactive Type โดยตรง
 
-รหัสนักศึกษา: 673380296-7
-ชื่อ: สโรชา เสาทอง
+📸 หลักฐานการทดสอบ
+
+ภาพการทดสอบ API ที่ใช้ประกอบรายงาน:
+
+01_GET_All_Products.png
+02_GET_Product_By_Id.png
+03_GET_By_Category.png
+04_GET_Discounted_Price.png
+05_GET_Seasonal_Discount.png
+06_POST_Create_Product.png
+07_GET_After_Create.png
+08_DELETE_Product.png
+09_Verify_Delete.png
+
+👩‍💻 ผู้จัดทำ
+
+รายการ
+
+ข้อมูล
+
+ชื่อ
+
+สโรชา เสาทอง
+
+รหัสนักศึกษา
+
+673380296-7
+
+รายวิชา
+
+CP353002 หลักการออกแบบและพัฒนาซอฟต์แวร์
+
+<div align="center">
+
+Made for educational purposes · Spring WebFlux Lab 10
+
+</div>
